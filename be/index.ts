@@ -30,17 +30,25 @@ app.post('/login/addUser', (req:Request, res:Response)=>{
             email: Body.email
         }
         //connessione mongo
-        client.connect();
-        const id = client.db('todoDb').collection('users').insertOne(NewUser);
-        console.log(id);
+        try {
+            client.connect()
+                .then(()=>{
+                    client.db('todoDb').collection('users').insertOne(NewUser);
+                })
+                .then(()=>{
+                    res.json({
+                        isRegistered: true 
+                    });
+                    return;
+                })
+            
+        } catch (error) {
+            res.json({
+                isRegistered: false,
+                err: error 
+            });
+            return;
+        }
         
-        res.json({
-            isRegistered: true 
-        });
-        return;
     }
-    res.json({
-        isRegistered: false 
-    }) 
-    return;  
 })
