@@ -37,7 +37,9 @@ app.post('/login/addUser', (req:Request, res:Response)=>{
                 })
                 .then(()=>{
                     res.json({
-                        isRegistered: true 
+                        isRegistered: true,
+                        err: ''
+                        
                     });
                     return;
                 })

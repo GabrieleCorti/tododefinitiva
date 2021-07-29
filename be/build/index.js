@@ -27,7 +27,8 @@ app.post('/login/addUser', (req, res) => {
             })
                 .then(() => {
                 res.json({
-                    isRegistered: true
+                    isRegistered: true,
+                    err: ''
                 });
                 return;
             });
