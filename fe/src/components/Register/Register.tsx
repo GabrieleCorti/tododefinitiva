@@ -2,11 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import todoLogo from "../../img/Microsoft_To-Do_icon.png";
-import axios from "axios";
+/* import axios from "axios"; */
 import { Page, RegisterBox, Input, Logo, Title, Label } from "./Style";
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from "react-redux";
-import { getName } from "../../actions/registerActions";
+import { getName, startFetching } from "../../actions/registerActions";
+/* import PasswordStrengthBar from 'react-password-strength-bar'; */
 import Button from "@material-ui/core/Button";
 
 interface User {
@@ -51,14 +52,18 @@ const Register = () => {
   /* inizializzo useDispatch */
   const dispatch = useDispatch()
 
+  const isComplete = () => {
+    return userInfo.name &&
+          userInfo.email &&
+          userInfo.password &&
+          userInfo.password === userInfo.confirm
+  }
+
   const Submit = () => {
     if (
-      userInfo.name &&
-      userInfo.email &&
-      userInfo.password &&
-      userInfo.password === userInfo.confirm
+      isComplete()
     ) {
-      try {
+     /*  try {
         axios({
           method: "post",
           url: "http://localhost:5000/login/addUser",
@@ -70,7 +75,7 @@ const Register = () => {
         }).then((res) => {
           if (res.data.isRegistered) {
             localStorage.setItem("token", res.data.data.token);
-            dispatch(getName(userInfo.name.trim()));
+            /* dispatch(getName(userInfo.name.trim())); 
             history.push("/todo");
           } else {
             setError({
@@ -81,7 +86,9 @@ const Register = () => {
         });
       } catch (error) {
         console.log(error);
-      }
+      } */
+      dispatch(startFetching());
+      dispatch(getName(userInfo));
     }
   };
 

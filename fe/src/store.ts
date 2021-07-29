@@ -1,4 +1,5 @@
-import { createStore, compose } from "redux"
+import { createStore, compose, applyMiddleware } from "redux"
+import thunk from 'redux-thunk';
 import rootReducer  from "./reducers"
 
 declare global {
@@ -7,7 +8,9 @@ declare global {
     }
   }
   
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const middlewere = [thunk]
 
 const Store = createStore(rootReducer, composeEnhancers())
 

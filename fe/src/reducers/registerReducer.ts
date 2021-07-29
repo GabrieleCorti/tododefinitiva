@@ -1,19 +1,27 @@
-import { GET_NAME } from '../actionTypes/index'
-
+import { GET_NAME, START_FETCHING, HAS_ERROR} from '../actionTypes/index'
 interface State {
     user:string
+    isFetching:boolean
+    error:string
 }
 
 
+
 const initialState:State = {
-    user: ''
+    user: '',
+    isFetching: false,
+    error: ''
 }
 
 
 export const registerReducer = (state = initialState, action:any) => {
     switch (action.type) {
         case GET_NAME:
-            return {...state, user: action.payload}
+            return {...state, user: action.payload, isFetching: false}
+        case START_FETCHING:
+            return {...state, isFetching: true}
+        case HAS_ERROR:
+            return {...state, error: action.payload, isFetching: false }
         default:
             return state
     }
