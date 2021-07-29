@@ -6,7 +6,16 @@ const port = 5000;
 const mongoUrl = 'mongodb://127.0.0.1:27017/todoDb';
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+const dayjs = require('dayjs');
+const jwt = require('jsonwebtoken');
 const client = new MongoClient(mongoUrl);
+//token generation
+const generateToken = (date, name, seecret) => {
+    return jwt.sign({
+        exp: dayjs().add(1, date).valueOf(),
+        name: name
+    }, seecret);
+};
 app.use(cors());
 app.use(express.json());
 app.get('/', (req, res) => res.send('Hello World!'));
@@ -26,9 +35,14 @@ app.post('/login/addUser', (req, res) => {
                 client.db('todoDb').collection('users').insertOne(NewUser);
             })
                 .then(() => {
+                const token = generateToken('1h', NewUser.name, 'seecret');
                 res.json({
                     isRegistered: true,
-                    err: ''
+                    err: '',
+                    data: {
+                        token: token,
+                        name: NewUser.name
+                    }
                 });
                 return;
             });
@@ -36,7 +50,8 @@ app.post('/login/addUser', (req, res) => {
         catch (error) {
             res.json({
                 isRegistered: false,
-                err: error
+                err: error,
+                data: {}
             });
             return;
         }

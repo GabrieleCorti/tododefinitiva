@@ -1,0 +1,1 @@
+export const GET_NAME:string = 'GET_NAME';
