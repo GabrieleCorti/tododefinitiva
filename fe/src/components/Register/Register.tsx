@@ -1,11 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import todoLogo from "../../img/Microsoft_To-Do_icon.png";
 /* import axios from "axios"; */
 import { Page, RegisterBox, Input, Logo, Title, Label } from "./Style";
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import { getName, startFetching } from "../../actions/registerActions";
 /* import PasswordStrengthBar from 'react-password-strength-bar'; */
 import Button from "@material-ui/core/Button";
@@ -40,10 +40,16 @@ const Register = () => {
     confirm: "",
   });
 
+
   const [error, setError] = useState<Error>({
     isActive: false,
     error: "",
   });
+
+  const apiError = useSelector((state: RootStateOrAny) => state.registerReducer.error);
+  const UserName:string = useSelector((state: RootStateOrAny) => state.registerReducer.user);
+  
+  
 
   /* hystory */
   let history = useHistory();
@@ -58,6 +64,22 @@ const Register = () => {
           userInfo.password &&
           userInfo.password === userInfo.confirm
   }
+
+  const GetUserName = async (nameFromRedux:string) => {
+    const Name:string = await nameFromRedux
+    console.log(Name);
+    
+    if (Name !== '') {
+      history.push('/todo')
+    }
+  }
+
+  useEffect(()=>{
+    if (apiError) {
+      setError({isActive: true, error: apiError})
+    }
+    GetUserName(UserName)
+  })
 
   const Submit = () => {
     if (
@@ -98,6 +120,7 @@ const Register = () => {
         <Logo src={todoLogo} alt={todoLogo} />
         <hr />
         <Title>Register</Title>
+        {error.isActive && <p>{error.error}, riprova più tardi</p>}
         <Label htmlFor="name">First name:</Label>
         <Input
           type="text"

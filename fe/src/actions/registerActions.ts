@@ -80,6 +80,14 @@ const newUser = (obj:IObj) => {
     }
 }
 
+const getError = (err:any) => {
+    return {
+        type: HAS_ERROR,
+        payload: err
+    }
+};
+
+
 export const getName = (obj:IObj) => {
     return (dispatch:any) => {
         return axios({
@@ -92,6 +100,8 @@ export const getName = (obj:IObj) => {
             },
           }).then( _ => {
               dispatch(newUser(obj))
+          }).catch(err => {
+                dispatch(getError(err));
           })
     }
 }
