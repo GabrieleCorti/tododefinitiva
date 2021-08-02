@@ -1,12 +1,14 @@
 import { GET_NAME, START_FETCHING, HAS_ERROR } from "../actionTypes";
 import axios from "axios";
+interface IObj {
 
-export const getName = (obj: {
-  name: string;
-  password: string;
-  email: string;
-}) => {
-  try {
+        name: string;
+        password: string;
+        email: string;
+   
+}
+/* export const getName = (obj:IObj ) => {
+
     axios({
       method: "post",
       url: "http://localhost:5000/login/addUser",
@@ -18,10 +20,12 @@ export const getName = (obj: {
     }).then((res) => {
       if (res.data.isRegistered) {
         localStorage.setItem("token", res.data.data.token);
-        return {
-          type: GET_NAME,
-          payload: obj.name,
-        };
+        console.log(obj);
+        const l = {
+            type: GET_NAME,
+            payload: obj.name,
+          }
+        return l;
       } else {
         return {
           type: HAS_ERROR,
@@ -29,10 +33,45 @@ export const getName = (obj: {
         };
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  
+}; */
+
+export const getName = (obj:IObj) => {
+    /* return function (dispatch:any) {
+        return axios({
+            method: "post",
+            url: "http://localhost:5000/login/addUser",
+            data: {
+              name: obj.name.trim(),
+              password: obj.password,
+              email: obj.email.trim(),
+            },
+          }).then( _ => {
+              dispatch({
+                type: GET_NAME,
+                payload: obj.name,
+              })
+          })
+    } */
+    const name = axios({
+        method: "post",
+        url: "http://localhost:5000/login/addUser",
+        data: {
+          name: obj.name.trim(),
+          password: obj.password,
+          email: obj.email.trim(),
+        },
+      })
+      .then( (res:any) => res)
+      .then(data => data)
+        console.log(name);
+        return {
+            
+            type: GET_NAME,
+            payload: name  
+        }
+
+}
 
 export const startFetching = () => {
   return {
