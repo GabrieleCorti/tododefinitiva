@@ -36,7 +36,7 @@ interface IObj {
   
 }; */
 
-export const getName = (obj:IObj) => {
+/* export const getName = (obj:IObj) => { */
     /* return function (dispatch:any) {
         return axios({
             method: "post",
@@ -53,7 +53,7 @@ export const getName = (obj:IObj) => {
               })
           })
     } */
-    const name = axios({
+/*     const name = axios({
         method: "post",
         url: "http://localhost:5000/login/addUser",
         data: {
@@ -71,6 +71,29 @@ export const getName = (obj:IObj) => {
             payload: name  
         }
 
+} */
+
+const newUser = (obj:IObj) => {
+    return {
+        type: GET_NAME,
+        payload: obj.name
+    }
+}
+
+export const getName = (obj:IObj) => {
+    return (dispatch:any) => {
+        return axios({
+            method: "post",
+            url: "http://localhost:5000/login/addUser",
+            data: {
+              name: obj.name.trim(),
+              password: obj.password,
+              email: obj.email.trim(),
+            },
+          }).then( _ => {
+              dispatch(newUser(obj))
+          })
+    }
 }
 
 export const startFetching = () => {
