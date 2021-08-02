@@ -1,48 +1,49 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = 5000;
-const mongoUrl = 'mongodb://127.0.0.1:27017/todoDb';
-const { MongoClient } = require('mongodb');
-const cors = require('cors');
-const dayjs = require('dayjs');
-const jwt = require('jsonwebtoken');
+const mongoUrl = "mongodb://127.0.0.1:27017/todoDb";
+const { MongoClient } = require("mongodb");
+const cors = require("cors");
+const dayjs = require("dayjs");
+const jwt = require("jsonwebtoken");
 const client = new MongoClient(mongoUrl);
 //token generation
 const generateToken = (date, name, seecret) => {
     return jwt.sign({
         exp: dayjs().add(1, date).valueOf(),
-        name: name
+        name: name,
     }, seecret);
 };
 app.use(cors());
 app.use(express.json());
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get("/", (req, res) => res.send("Hello World!"));
 app.listen(port, () => console.log(`Example app listening on port port!`));
-app.post('/login/addUser', (req, res) => {
+app.post("/login/addUser", (req, res) => {
     const Body = req.body;
-    if (Body) {
+    if (Body.name && Body.password && Body.email) {
         const NewUser = {
             name: Body.name,
             password: Body.password,
-            email: Body.email
+            email: Body.email,
         };
         //connessione mongo
         try {
-            client.connect()
+            client
+                .connect()
                 .then(() => {
-                client.db('todoDb').collection('users').insertOne(NewUser);
+                client.db("todoDb").collection("users").insertOne(NewUser);
             })
                 .then(() => {
-                const token = generateToken('1h', NewUser.name, 'seecret');
+                const token = generateToken("1h", NewUser.name, "seecret");
                 res.json({
                     isRegistered: true,
-                    err: '',
+                    err: "",
                     data: {
                         token: token,
-                        name: NewUser.name
-                    }
+                        name: NewUser.name,
+                    },
                 });
                 return;
             });
@@ -51,21 +52,23 @@ app.post('/login/addUser', (req, res) => {
             res.json({
                 isRegistered: false,
                 err: error,
-                data: {}
+                data: {},
             });
             return;
         }
     }
 });
-app.get('/login', (req, res) => {
+app.get("/login", (req, res) => {
     const Body = req.body;
-    console.log('inizio');
-    console.log(Body);
     if (Body) {
         try {
-            client.connect()
+            client
+                .connect()
                 .then(() => {
-                return client.db('todoDb').collection('users').findOne({ email: Body.email, password: Body.password });
+                return client
+                    .db("todoDb")
+                    .collection("users")
+                    .findOne({ email: Body.email, password: Body.password });
             })
                 .then((item) => {
                 if (item) {
@@ -73,15 +76,15 @@ app.get('/login', (req, res) => {
                         isFound: true,
                         data: {
                             name: item.name,
-                            email: item.email
-                        }
+                            email: item.email,
+                        },
                     });
                     return;
                 }
                 else {
                     res.json({
                         isFound: false,
-                        data: {}
+                        data: {},
                     });
                 }
             });
@@ -91,8 +94,8 @@ app.get('/login', (req, res) => {
             res.json({
                 isFound: false,
                 data: {
-                    error: err
-                }
+                    error: err,
+                },
             });
             return;
         }
