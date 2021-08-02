@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -14,7 +15,10 @@ function App() {
         <Route exact path='/register'>
           <Register />
         </Route>
-        {/* redorect for entering */}
+        <Route exact path='/login'>
+          <Login />
+        </Route>
+        {/* redirect entering / */}
         <Route exact path='/'>
           <Redirect to='/register' />
         </Route>
