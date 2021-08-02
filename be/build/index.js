@@ -57,3 +57,44 @@ app.post('/login/addUser', (req, res) => {
         }
     }
 });
+app.get('/login', (req, res) => {
+    const Body = req.body;
+    console.log('inizio');
+    console.log(Body);
+    if (Body) {
+        try {
+            client.connect()
+                .then(() => {
+                return client.db('todoDb').collection('users').findOne({ email: Body.email, password: Body.password });
+            })
+                .then((item) => {
+                if (item) {
+                    res.json({
+                        isFound: true,
+                        data: {
+                            name: item.name,
+                            email: item.email
+                        }
+                    });
+                    return;
+                }
+                else {
+                    res.json({
+                        isFound: false,
+                        data: {}
+                    });
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+            res.json({
+                isFound: false,
+                data: {
+                    error: err
+                }
+            });
+            return;
+        }
+    }
+});

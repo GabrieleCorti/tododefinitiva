@@ -6,3 +6,12 @@ Content-Type: application/json
     "password": "Gabriele",
     "email": "gabriele@gmail.com"
 }
+
+###
+GET  http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "password": "User",
+    "email": "user@gmail.com"
+}
