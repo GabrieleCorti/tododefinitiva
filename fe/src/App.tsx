@@ -20,7 +20,9 @@ function App() {
           <Login />
         </Route>
         <Route exact path='/todo'>
-          <ExpOrComp />
+          <ExpOrComp >
+            <h1>ToDo perchè ho i permessi</h1>
+          </ExpOrComp>
         </Route>
         {/* redirect entering / */}
         <Route exact path='/'>

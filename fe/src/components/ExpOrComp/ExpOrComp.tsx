@@ -1,15 +1,24 @@
 import React from 'react'
 import { Page, RegisterBox, Title } from '../Register/Style'
+import { RootStateOrAny, useSelector } from 'react-redux'
 import {GoToRegister, StyledLink} from '../Login/Style'
 
-const ExpOrComp = () => {
+
+const ExpOrComp:React.FC = ({children}) => {
+    const Token = localStorage.getItem('token');
+    const Name = useSelector((state:RootStateOrAny) => state.loginReducer.name)
+
+
     return (
-        <Page>
-            <RegisterBox>
-                <Title>Spiacente la tua sessione è scaduta</Title>
-                <GoToRegister>Per poter proseguire procedi con un nuovo <StyledLink to='/login'>Login</StyledLink></GoToRegister>
-            </RegisterBox>
-            {/* child con il todo  */}
+        <Page>   
+            {
+                Token && Name ?
+                children :
+                <RegisterBox>
+                <Title>Spiacente ma non ti è permesso entrare qui</Title>
+                <GoToRegister>procedi con il <StyledLink to='/login'>Login</StyledLink> o <StyledLink to='/register'>Registrati</StyledLink></GoToRegister>
+                </RegisterBox> 
+            }
         </Page>
     )
 }
