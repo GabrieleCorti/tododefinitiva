@@ -1,21 +1,31 @@
 import React from 'react'
 import { useState } from 'react'
-import { RootStateOrAny, useSelector } from 'react-redux'
+import { RootStateOrAny, useSelector, useDispatch } from 'react-redux'
+import {isPosting, postTodo} from '../../actions/todoActions'
 
 interface Todo {
     title:string,
     body:string,
-    expDate:string
+    expDate:string | null 
 }
 
 const InputBar = () => {
-    const name = useSelector((state:RootStateOrAny) => state.loginReducer.name)
+    const token = localStorage.getItem('token');
     const [todo, setTodo] = useState<Todo>({
         title: '',
         body: '',
         expDate: ''
     })
-    
+    //dispatch 
+    const dispatch = useDispatch()
+
+    const SubmitTodo = () => {
+        if (todo.title && todo.body){
+            dispatch(isPosting());
+            dispatch(postTodo({...todo, token: token }))
+        }
+    }
+
     return (
         <div>
             <input type="text" onChange={e=>setTodo({...todo, title: e.target.value})}/>
@@ -23,7 +33,7 @@ const InputBar = () => {
                 <input type="text" onChange={e=>setTodo({...todo, body: e.target.value})}/>
                 <input type="date" onChange={e=>setTodo({...todo, expDate: e.target.value})} />
             </div>
-            <button>Aggiungi Task</button>
+            <button onClick={SubmitTodo}>Aggiungi Task</button>
         </div>
     )
 }

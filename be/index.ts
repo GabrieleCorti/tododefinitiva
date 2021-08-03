@@ -24,7 +24,7 @@ interface LogData {
 
 interface Task {
   title:string,
-  date:string,
+  expDate:string | null,
   body:string,
   isCompleted:boolean
   belongsTo:string
@@ -181,7 +181,7 @@ app.post('/addTodo', VerifyToken, (req: Request, res: Response) => {
     const NewTask:Task = {
       title: Body.title,
       body: Body.body,
-      date: Body.date,
+      expDate: Body.expDate,
       isCompleted: false,
       belongsTo: res.locals.name 
     }
@@ -193,13 +193,16 @@ app.post('/addTodo', VerifyToken, (req: Request, res: Response) => {
             .collection("todos")
             .insertOne(NewTask)
         })
-        .then((item:any)=>{
-          res.json(item);
+        .then( (_:any) =>{
+          res.json({
+            isPosted:true
+          });
           return;
         })
     } catch (error) {
       console.log(error);
       res.json({
+        isPosted:false,
         err: error
       })
       return;

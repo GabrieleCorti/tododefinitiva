@@ -149,7 +149,7 @@ app.post('/addTodo', VerifyToken, (req, res) => {
         const NewTask = {
             title: Body.title,
             body: Body.body,
-            date: Body.date,
+            expDate: Body.expDate,
             isCompleted: false,
             belongsTo: res.locals.name
         };
@@ -161,14 +161,17 @@ app.post('/addTodo', VerifyToken, (req, res) => {
                     .collection("todos")
                     .insertOne(NewTask);
             })
-                .then((item) => {
-                res.json(item);
+                .then((_) => {
+                res.json({
+                    isPosted: true
+                });
                 return;
             });
         }
         catch (error) {
             console.log(error);
             res.json({
+                isPosted: false,
                 err: error
             });
             return;
