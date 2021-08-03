@@ -16,6 +16,38 @@ const generateToken = (date, name, seecret) => {
         name: name,
     }, seecret);
 };
+//token verification
+const VerifyToken = (req, res, next) => {
+    const AuteticationHead = req.header("authorization");
+    console.log(AuteticationHead);
+    const token = AuteticationHead && AuteticationHead.split(" ")[1];
+    console.log(token);
+    if (token === undefined) {
+        res.json({
+            isAuthorised: false
+        });
+        return;
+    }
+    ;
+    jwt.verify(token, "seecret", (err, token) => {
+        if (err) {
+            res.json({
+                error: err,
+                isAuthorised: false
+            });
+            return;
+        }
+        if (dayjs().isAfter(token.exp)) {
+            res.json({
+                err: 'expierd',
+                isAuthorised: false
+            });
+            return;
+        }
+        res.locals.name = token.name;
+        next();
+    });
+};
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,7 +69,7 @@ app.post("/login/addUser", (req, res) => {
                 client.db("todoDb").collection("users").insertOne(NewUser);
             })
                 .then(() => {
-                const token = generateToken("1h", NewUser.name, "seecret");
+                const token = generateToken("h", NewUser.name, "seecret");
                 res.json({
                     isRegistered: true,
                     err: "",
@@ -74,9 +106,8 @@ app.post("/login", (req, res) => {
                     .findOne({ email: Body.email, password: Body.password });
             })
                 .then((item) => {
-                console.log(item);
                 if (item) {
-                    const token = generateToken("1h", item.name, "seecret");
+                    const token = generateToken("h", item.name, "seecret");
                     res.json({
                         isFound: true,
                         data: {
@@ -106,4 +137,9 @@ app.post("/login", (req, res) => {
             return;
         }
     }
+});
+app.get('/autorization', VerifyToken, (req, res) => {
+    res.json({
+        isAuthorized: true
+    });
 });

@@ -15,3 +15,7 @@ Content-Type: application/json
     "password": "r",
     "email": "s"
 }
+
+###
+GET http://localhost:5000/autorization
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mjc5OTQzMzExMzYsIm5hbWUiOiJzIiwiaWF0IjoxNjI3OTkwNzMxfQ.uoYKVTsyw-dVBQfeLtPdKCW4yKY6-3YmFNRpEdmX_20

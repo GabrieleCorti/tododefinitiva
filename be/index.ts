@@ -32,6 +32,40 @@ const generateToken = (date: string, name: string, seecret: string): string => {
     seecret
   );
 };
+//token verification
+const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
+  const AuteticationHead = req.header("authorization");
+  console.log(AuteticationHead);
+  
+  const token = AuteticationHead && AuteticationHead.split(" ")[1];
+  console.log(token);
+  
+  if (token === undefined) {
+    res.json({
+      isAuthorised: false 
+    });
+    return;
+  };
+  jwt.verify(token, "seecret", (err: any, token: any) => {
+    if (err) {
+      res.json({
+        error: err,
+        isAuthorised: false
+      });
+      return;
+    }
+    
+    if (dayjs().isAfter(token.exp)) {
+      res.json({
+        err: 'expierd',
+        isAuthorised: false
+      });
+      return;
+    }
+    res.locals.name = token.name;
+    next();
+  });
+}
 
 app.use(cors());
 app.use(express.json());
@@ -56,7 +90,7 @@ app.post("/login/addUser", (req: Request, res: Response) => {
           client.db("todoDb").collection("users").insertOne(NewUser);
         })
         .then(() => {
-          const token = generateToken("1h", NewUser.name, "seecret");
+          const token = generateToken("h", NewUser.name, "seecret");
           res.json({
             isRegistered: true,
             err: "",
@@ -97,7 +131,7 @@ app.post("/login", (req: Request, res: Response) => {
         .then((item: any) => {
           
           if (item) {
-            const token = generateToken("1h", item.name, "seecret");
+            const token = generateToken("h", item.name, "seecret");
             res.json({
               isFound: true,
               data: {
@@ -126,3 +160,9 @@ app.post("/login", (req: Request, res: Response) => {
     }
   }
 });
+
+app.get('/autorization', VerifyToken, (req: Request, res: Response) => {
+    res.json({
+      isAuthorized: true
+    })
+}) 
