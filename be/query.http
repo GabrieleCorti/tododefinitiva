@@ -30,3 +30,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjgwMDE3N
     "body": "Questa è una prova",
     "expDate": "2021-08-03"
 }
+
+###
+GET http://localhost:5000/todos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjgwMDc0MTk0OTMsIm5hbWUiOiJVc2VyIiwiaWF0IjoxNjI4MDAzODE5fQ.af3ls5QYoGnu9a3JXabUzFZsydJwUOP-TyXXiBkdDTA

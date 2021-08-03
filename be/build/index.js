@@ -143,6 +143,30 @@ app.get('/autorization', VerifyToken, (req, res) => {
         isAuthorized: true
     });
 });
+app.get('/todos', VerifyToken, (req, res) => {
+    console.log(res.locals.name);
+    try {
+        client.connect()
+            .then(() => {
+            return client.db('todoDb').collection('todos').find({ belongsTo: res.locals.name }).toArray();
+        })
+            .then((todos) => {
+            res.json({
+                isFound: true,
+                data: todos
+            });
+            return;
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            isFound: false,
+            err: error
+        });
+        return;
+    }
+});
 app.post('/addTodo', VerifyToken, (req, res) => {
     const Body = req.body;
     if (Body) {
