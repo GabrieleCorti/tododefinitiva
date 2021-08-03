@@ -22,6 +22,13 @@ interface LogData {
   password: string;
 }
 
+interface Task {
+  title:string,
+  date:string,
+  body:string,
+  isCompleted:boolean
+  belongsTo:string
+}
 //token generation
 const generateToken = (date: string, name: string, seecret: string): string => {
   return jwt.sign(
@@ -166,3 +173,36 @@ app.get('/autorization', VerifyToken, (req: Request, res: Response) => {
       isAuthorized: true
     })
 }) 
+
+app.post('/addTodo', VerifyToken, (req: Request, res: Response) => {
+  const Body = req.body
+
+  if (Body) {
+    const NewTask:Task = {
+      title: Body.title,
+      body: Body.body,
+      date: Body.date,
+      isCompleted: false,
+      belongsTo: res.locals.name 
+    }
+    try {
+      client.connect()
+        .then(()=>{
+          return client
+            .db("todoDb")
+            .collection("todos")
+            .insertOne(NewTask)
+        })
+        .then((item:any)=>{
+          res.json(item);
+          return;
+        })
+    } catch (error) {
+      console.log(error);
+      res.json({
+        err: error
+      })
+      return;
+    }
+  }
+})

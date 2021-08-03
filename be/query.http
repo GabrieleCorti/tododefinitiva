@@ -12,10 +12,21 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "password": "r",
-    "email": "s"
+    "password": "User",
+    "email": "user@gmail.com"
 }
 
 ###
 GET http://localhost:5000/autorization
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mjc5OTQzMzExMzYsIm5hbWUiOiJzIiwiaWF0IjoxNjI3OTkwNzMxfQ.uoYKVTsyw-dVBQfeLtPdKCW4yKY6-3YmFNRpEdmX_20
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjgwMDE3NTk0MzQsIm5hbWUiOiJVc2VyIiwiaWF0IjoxNjI3OTk4MTU5fQ.1CmdWmOzX5sb6-X4dQ4kJ9_zwcquOXgI6nLjkgNKhtQ
+
+###
+POST http://localhost:5000/addTodo
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjgwMDE3NTk0MzQsIm5hbWUiOiJVc2VyIiwiaWF0IjoxNjI3OTk4MTU5fQ.1CmdWmOzX5sb6-X4dQ4kJ9_zwcquOXgI6nLjkgNKhtQ
+
+{
+    "title": "prova",
+    "body": "Questa è una prova",
+    "date": "2021-08-03"
+}
