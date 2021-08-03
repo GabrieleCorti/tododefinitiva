@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Page, RegisterBox, Title } from "../Register/Style";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { RootStateOrAny, useSelector, useDispatch } from "react-redux";
 import { GoToRegister, StyledLink } from "../Login/Style";
+import { verifyToken } from "../../actions/verifyAction";
 
-const ExpOrComp: React.FC = ({ children }) => {
+const ExpOrComp:React.FC = ({ children }) => {
   const Token = localStorage.getItem("token");
-  const Name = useSelector((state: RootStateOrAny) => state.loginReducer.name);
+  const Name = useSelector((state:RootStateOrAny) => state.loginReducer.name);
+  const IsAutorised = useSelector((state:RootStateOrAny) => state.verifyReducer.isAuthorised);
+  
+  //dispatch
+  const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(verifyToken(Token))
+    }, [])
 
   return (
     <>
-      {Token && Name ? (
+      {IsAutorised && Name ? (
         children
       ) : (
         <Page>

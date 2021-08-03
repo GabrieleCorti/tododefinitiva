@@ -6,3 +6,6 @@ export const HAS_ERROR:string = 'HAS_ERROR'
 export const LOGIN = 'LOGIN'
 export const START_LOGING = 'START_LOGING'
 export const NOT_FOUND_USER = 'NOT_FOUND_USER'
+//varifyToken 
+export const IS_VERIFYED = 'IS_VERIFYED'
+export const IS_NOT_VERIFYED = 'IS_NOT_VERIFYED'
