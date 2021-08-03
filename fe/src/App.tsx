@@ -8,6 +8,7 @@ import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
 import ExpOrComp from './components/ExpOrComp';
+import Todo from './components/Todo';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         </Route>
         <Route exact path='/todo'>
           <ExpOrComp >
-            <h1>ToDo perchè ho i permessi</h1>
+            <Todo />
           </ExpOrComp>
         </Route>
         {/* redirect entering / */}
