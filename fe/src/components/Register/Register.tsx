@@ -65,8 +65,8 @@ const Register = () => {
           userInfo.password === userInfo.confirm
   }
 
-  const GetUserName = async (nameFromRedux:string) => {
-    const Name:string = await nameFromRedux
+  const GetUserName = (nameFromRedux:string) => {
+    const Name:string = nameFromRedux
     console.log(Name);
     
     if (Name !== '') {

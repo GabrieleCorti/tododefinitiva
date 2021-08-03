@@ -18,6 +18,7 @@ const generateToken = (date, name, seecret) => {
 };
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => res.send("Hello World!"));
 app.listen(port, () => console.log(`Example app listening on port port!`));
 app.post("/login/addUser", (req, res) => {
@@ -58,8 +59,10 @@ app.post("/login/addUser", (req, res) => {
         }
     }
 });
-app.get("/login", (req, res) => {
+app.post("/login", (req, res) => {
     const Body = req.body;
+    console.log(req.body);
+    console.log(Body.email, Body.password);
     if (Body) {
         try {
             client
@@ -71,6 +74,7 @@ app.get("/login", (req, res) => {
                     .findOne({ email: Body.email, password: Body.password });
             })
                 .then((item) => {
+                console.log(item);
                 if (item) {
                     res.json({
                         isFound: true,
