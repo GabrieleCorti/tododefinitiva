@@ -7,6 +7,7 @@ import {
 import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
+import ExpOrComp from './components/ExpOrComp';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route exact path='/login'>
           <Login />
+        </Route>
+        <Route exact path='/todo'>
+          <ExpOrComp />
         </Route>
         {/* redirect entering / */}
         <Route exact path='/'>
