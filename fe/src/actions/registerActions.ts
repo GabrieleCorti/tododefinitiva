@@ -98,8 +98,9 @@ export const getName = (obj:IObj) => {
               password: obj.password,
               email: obj.email.trim(),
             },
-          }).then( _ => {
-              dispatch(newUser(obj))
+          }).then( res => {
+            localStorage.setItem("token", res.data.data.token);
+            dispatch(newUser(obj))
           }).catch(err => {
                 dispatch(getError(err));
           })

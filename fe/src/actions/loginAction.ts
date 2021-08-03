@@ -37,6 +37,7 @@ export const logIn = (obj: Obj) => {
         console.log(res);
         
         if (res.data.isFound) {
+          localStorage.setItem("token", res.data.data.token);
           dispatch(getUserData(res.data.data));
         } else {
           dispatch(notFound());

@@ -12,7 +12,7 @@ const InitialState:State = {
     name: '',
     email: '',
     isNotFound: false,
-    isLoging: false
+    isLoging: false,
 }
 
 export const loginReducer = (state:State = InitialState, action:any) => {

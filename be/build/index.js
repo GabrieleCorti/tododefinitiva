@@ -76,11 +76,13 @@ app.post("/login", (req, res) => {
                 .then((item) => {
                 console.log(item);
                 if (item) {
+                    const token = generateToken("1h", item.name, "seecret");
                     res.json({
                         isFound: true,
                         data: {
                             name: item.name,
                             email: item.email,
+                            token: token
                         },
                     });
                     return;
