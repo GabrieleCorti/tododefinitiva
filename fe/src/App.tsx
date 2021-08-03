@@ -20,7 +20,7 @@ function App() {
         </Route>
         {/* redirect entering / */}
         <Route exact path='/'>
-          <Redirect to='/register' />
+          <Redirect to='/login' />
         </Route>
       </Router>
     </div>
