@@ -20,7 +20,7 @@ export const verifyToken = (token:string | null) => {
         })
         .then(res=>{
             console.log(res);
-            res.data.isAuthorised && dispatch(verify()) || dispatch(notVerify());
+            res.data.isAuthorized && dispatch(verify()) || dispatch(notVerify());
         })
         .catch(err=> {
             console.log(err);
