@@ -13,8 +13,8 @@ interface Todo {
 }
 
 const Task = () => {
-    const [todos, setTodos] = useState<Todo[]>([]);
-    const todoList = useSelector((state:RootStateOrAny) => state.todoReducer.todos)
+    const todos:Todo[] = useSelector((state:RootStateOrAny) => state.todoReducer.todos)
+    const isPosting = useSelector((state:RootStateOrAny) => state.todoReducer.isPosting)
     const token = localStorage.getItem('token')
     
     
@@ -24,15 +24,14 @@ const Task = () => {
     useEffect(()=>{
         dispatch(isFetching())
         dispatch(getTodos(token))
-        setTodos(todoList)
-    }, [todoList])
+    }, [isPosting])
 
     
     return (
         <div>
             <ul>
                 {
-                    todos.map(e=>{
+                    todos.map((e:any)=>{
                         return (
                         <li key={e._id}>
                             <h2>{e.title}</h2>
