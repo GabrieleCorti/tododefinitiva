@@ -6,7 +6,9 @@ import { verifyToken } from "../../actions/verifyAction";
 
 const ExpOrComp:React.FC = ({ children }) => {
   const Token = localStorage.getItem("token");
-  const Name = useSelector((state:RootStateOrAny) => state.loginReducer.name);
+  const User = useSelector((state:RootStateOrAny) => state.loginReducer.name);
+  const Name = useSelector((state:RootStateOrAny) => state.registerReducer.user);
+  const hasName = User || Name
   const IsAutorised = useSelector((state:RootStateOrAny) => state.verifyReducer.isAuthorised);
   
   //dispatch
@@ -18,7 +20,7 @@ const ExpOrComp:React.FC = ({ children }) => {
 
   return (
     <>
-      {IsAutorised && Name ? (
+      {IsAutorised && hasName ? (
         children
       ) : (
         <Page>
