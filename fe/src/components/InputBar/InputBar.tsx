@@ -23,14 +23,15 @@ const InputBar = () => {
         if (todo.title && todo.body){
             dispatch(isPosting());
             dispatch(postTodo({...todo, token: token }))
+            setTodo({...todo, title: '', body: ''})
         }
     }
 
     return (
         <div>
-            <input type="text" onChange={e=>setTodo({...todo, title: e.target.value})}/>
+            <input value={todo.title} type="text" onChange={e=>setTodo({...todo, title: e.target.value})}/>
             <div>
-                <input type="text" onChange={e=>setTodo({...todo, body: e.target.value})}/>
+                <input value={todo.body} type="text" onChange={e=>setTodo({...todo, body: e.target.value})}/>
                 <input type="date" onChange={e=>setTodo({...todo, expDate: e.target.value})} />
             </div>
             <button onClick={SubmitTodo}>Aggiungi Task</button>

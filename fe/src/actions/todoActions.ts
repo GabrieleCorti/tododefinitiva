@@ -1,4 +1,4 @@
-import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET } from "../actionTypes";
+import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH } from "../actionTypes";
 import axios from "axios";
 
 interface Todo {
@@ -58,7 +58,11 @@ export const postTodo = (obj:Todo) => {
             }
         })
         .then((res)=>{
+            if (res.data.isAuthorised === false) {
+                dispatch(noPermission());
+            } else {
             res.data.isPosted && dispatch(post()) || dispatch(failedPost())
+            }
         })
         .catch((err)=>{
             console.log(err);
@@ -82,12 +86,19 @@ const get = (todos:TodoGet) => {
     }
 }
 
+const noPermission = () => {
+    return {
+        type: NO_AUTH
+    }
+}
+
 export const getTodos = (token:string | null) => {
     return (dispatch:any) => {
         return axios.get('http://localhost:5000/todos', {headers: {Authorization: `Bearer ${token}`}})
             .then(res=>{
-                console.log(res);
-                if (res.data.isFound) {
+                if (res.data.isAuthorised === false) {
+                    dispatch(noPermission());
+                } else if (res.data.isFound) {
                     console.log(res);
                     
                     dispatch(get(res.data.data))
