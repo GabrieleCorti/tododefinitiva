@@ -82,11 +82,14 @@ const get = (todos:TodoGet) => {
     }
 }
 
-export const getTodos = () => {
+export const getTodos = (token:string | null) => {
     return (dispatch:any) => {
-        return axios.get('http://localhost:5000/todos')
+        return axios.get('http://localhost:5000/todos', {headers: {Authorization: `Bearer ${token}`}})
             .then(res=>{
+                console.log(res);
                 if (res.data.isFound) {
+                    console.log(res);
+                    
                     dispatch(get(res.data.data))
                 } else {
                     dispatch(failedGet())

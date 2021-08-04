@@ -26,7 +26,7 @@ const getUserData = (obj: Obj) => {
 };
 /* .get('http://localhost:5000/login') */
 export const logIn = (obj: Obj) => {
-  console.log(obj.email, obj.password);
+  /* console.log(obj.email, obj.password); */
   
   return (dispatch: any) => {
     return axios.post('http://localhost:5000/login', {
@@ -34,7 +34,7 @@ export const logIn = (obj: Obj) => {
       password: obj.password
     })
       .then((res) => {
-        console.log(res);
+        /* console.log(res); */
         
         if (res.data.isFound) {
           localStorage.setItem("token", res.data.data.token);

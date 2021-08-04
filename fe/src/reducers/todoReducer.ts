@@ -35,6 +35,8 @@ export const todoReducer = (state=InitialState, action:any) => {
             return {...state, isFetching: true}
         case FAILED_GET:
             return {...state, isFetching: false}
+        case GET_TODO:
+            return {...state, todos: action.payload}
         default:
             return state;
     }

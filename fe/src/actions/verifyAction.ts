@@ -19,7 +19,7 @@ export const verifyToken = (token:string | null) => {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res=>{
-            console.log(res);
+            /* console.log(res); */
             res.data.isAuthorized && dispatch(verify()) || dispatch(notVerify());
         })
         .catch(err=> {
