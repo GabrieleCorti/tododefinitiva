@@ -30,9 +30,9 @@ const generateToken = (date, name, seecret) => {
 //token verification
 const VerifyToken = (req, res, next) => {
     const AuteticationHead = req.header("authorization");
-    console.log(AuteticationHead);
+    /* console.log(AuteticationHead); */
     const token = AuteticationHead && AuteticationHead.split(" ")[1];
-    console.log(token);
+    /* console.log(token); */
     if (token === undefined) {
         res.json({
             isAuthorised: false
@@ -76,13 +76,13 @@ function main(mail) {
             from: '<noreply@todo.com>',
             to: mail,
             subject: "Hello ✔",
-            text: "Hello world?",
-            html: "<b>Hello world?</b>", // html body
+            text: "razie per esserti iscritto a Todo Conferma la tua iscrizione qui",
+            html: "<h1>Grazie per esserti iscritto a Todo</h1> <p>Conferma la tua iscrizione <a href='http://localhost:3000/account/verify'>qui<a></p>", // html body
         });
-        console.log("Message sent: %s", info.messageId);
+        /* console.log("Message sent: %s", info.messageId); */
         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
         // Preview only available when sending through an Ethereal account
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        /* console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info)); */
         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     });
 }
@@ -138,8 +138,9 @@ app.post("/login/addUser", (req, res) => {
 });
 app.post("/login", (req, res) => {
     const Body = req.body;
-    console.log(req.body);
-    console.log(Body.email, Body.password);
+    /* console.log(req.body);
+    
+    console.log(Body.email, Body.password); */
     if (Body) {
         try {
             client
@@ -189,7 +190,7 @@ app.get('/autorization', VerifyToken, (req, res) => {
     });
 });
 app.get('/todos', VerifyToken, (req, res) => {
-    console.log(res.locals.name);
+    /* console.log(res.locals.name); */
     try {
         client.connect()
             .then(() => {
@@ -245,5 +246,20 @@ app.post('/addTodo', VerifyToken, (req, res) => {
             });
             return;
         }
+    }
+});
+app.put('/confirm-account', VerifyToken, (req, res) => {
+    const { code } = req.body;
+    console.log(req.body);
+    try {
+        client.connect()
+            .then(() => {
+            return client.db('todoDb').collection('users').updateOne({ secretUrl: code }, { $set: { isActive: true } });
+        });
+        return;
+    }
+    catch (error) {
+        console.log(error);
+        return;
     }
 });

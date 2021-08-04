@@ -18,7 +18,10 @@ export const RegisterBox = styled.div`
     border: 0;
     height: 1px;
     background: #3495EA;
-   } 
+   }
+   &.center {
+       text-align: center;
+   }
 `;
 
 export const Logo = styled.img`

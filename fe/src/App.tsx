@@ -9,6 +9,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import ExpOrComp from './components/ExpOrComp';
 import Todo from './components/Todo';
+import ConfirmAccount from './components/ConfirmAccount';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           <ExpOrComp >
             <Todo />
           </ExpOrComp>
+        </Route>
+        <Route exact path='/account/verify'>
+          <ConfirmAccount />
         </Route>
         {/* redirect entering / */}
         <Route exact path='/'>

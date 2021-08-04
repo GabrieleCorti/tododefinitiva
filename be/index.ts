@@ -6,7 +6,6 @@ const { MongoClient } = require("mongodb");
 const cors = require("cors");
 const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
-import { ESRCH } from "constants";
 import { Request, Response, NextFunction } from "express";
 const client = new MongoClient(mongoUrl);
 const nodemailer = require("nodemailer");
@@ -46,10 +45,10 @@ const generateToken = (date: string, name: string, seecret: string): string => {
 //token verification
 const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
   const AuteticationHead = req.header("authorization");
-  console.log(AuteticationHead);
+  /* console.log(AuteticationHead); */
   
   const token = AuteticationHead && AuteticationHead.split(" ")[1];
-  console.log(token);
+  /* console.log(token); */
   
   if (token === undefined) {
     res.json({
@@ -95,15 +94,15 @@ async function main(mail:string) {
     from: '<noreply@todo.com>', // sender address
     to: mail, // list of receivers
     subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+    text: "razie per esserti iscritto a Todo Conferma la tua iscrizione qui", // plain text body
+    html: "<h1>Grazie per esserti iscritto a Todo</h1> <p>Conferma la tua iscrizione <a href='http://localhost:3000/account/verify'>qui<a></p>", // html body
   });
 
-  console.log("Message sent: %s", info.messageId);
+  /* console.log("Message sent: %s", info.messageId); */
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
   // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  /* console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info)); */
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 
 }
@@ -161,9 +160,9 @@ app.post("/login/addUser", (req: Request, res: Response) => {
 
 app.post("/login", (req: Request, res: Response) => {
   const Body:LogData = req.body;
-  console.log(req.body);
+  /* console.log(req.body);
   
-  console.log(Body.email, Body.password);
+  console.log(Body.email, Body.password); */
   
   if (Body) {
     try {
@@ -215,7 +214,7 @@ app.get('/autorization', VerifyToken, (req: Request, res: Response) => {
 }) 
 
 app.get('/todos', VerifyToken, (req: Request, res: Response)=>{
-  console.log(res.locals.name);
+  /* console.log(res.locals.name); */
   
   try {
     client.connect()
@@ -273,4 +272,20 @@ app.post('/addTodo', VerifyToken, (req: Request, res: Response) => {
       return;
     }
   }
-})
+});
+
+app.put('/confirm-account', VerifyToken,(req:Request, res:Response) => {
+  const { code } = req.body;
+  console.log(req.body);
+  
+  try {
+    client.connect()
+      .then(()=>{
+        return client.db('todoDb').collection('users').updateOne({secretUrl: code}, {$set:{isActive: true}})
+      })
+      return;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+});
