@@ -10,12 +10,15 @@ import { ESRCH } from "constants";
 import { Request, Response, NextFunction } from "express";
 const client = new MongoClient(mongoUrl);
 const nodemailer = require("nodemailer");
+const cripto = require('crypto');
 
 //interfacecce
 interface User {
   name: string;
   password: string;
   email: string;
+  secretUrl: string;
+  isActive:boolean
 }
 
 interface LogData {
@@ -114,10 +117,13 @@ app.listen(port, () => console.log(`Example app listening on port port!`));
 app.post("/login/addUser", (req: Request, res: Response) => {
   const Body:User = req.body;
   if (Body.name && Body.password && Body.email) {
+    var secretUrl = cripto.randomBytes(20).toString('hex')
     const NewUser:User = {
       name: Body.name,
       password: Body.password,
       email: Body.email,
+      secretUrl: secretUrl,
+      isActive: false
     };
     //connessione mongo
     try {
@@ -137,6 +143,7 @@ app.post("/login/addUser", (req: Request, res: Response) => {
             data: {
               token: token,
               name: NewUser.name,
+              code: NewUser.secretUrl
             },
           });
           return;

@@ -19,6 +19,7 @@ const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
 const client = new MongoClient(mongoUrl);
 const nodemailer = require("nodemailer");
+const cripto = require('crypto');
 //token generation
 const generateToken = (date, name, seecret) => {
     return jwt.sign({
@@ -93,10 +94,13 @@ app.listen(port, () => console.log(`Example app listening on port port!`));
 app.post("/login/addUser", (req, res) => {
     const Body = req.body;
     if (Body.name && Body.password && Body.email) {
+        var secretUrl = cripto.randomBytes(20).toString('hex');
         const NewUser = {
             name: Body.name,
             password: Body.password,
             email: Body.email,
+            secretUrl: secretUrl,
+            isActive: false
         };
         //connessione mongo
         try {
@@ -116,6 +120,7 @@ app.post("/login/addUser", (req, res) => {
                     data: {
                         token: token,
                         name: NewUser.name,
+                        code: NewUser.secretUrl
                     },
                 });
                 return;

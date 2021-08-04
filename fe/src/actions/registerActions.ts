@@ -100,6 +100,7 @@ export const getName = (obj:IObj) => {
             },
           }).then( res => {
             localStorage.setItem("token", res.data.data.token);
+            localStorage.setItem("code", res.data.data.code);
             dispatch(newUser(obj))
           }).catch(err => {
                 dispatch(getError(err));
