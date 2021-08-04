@@ -39,7 +39,7 @@ const Login = () => {
     const isNotFound = useSelector((state:RootStateOrAny) => state.loginReducer.isNotFound);
     const Name = useSelector((state:RootStateOrAny) => state.loginReducer.name);
     /* console.log(Name); */
-    
+    //invento qualcosa per togliere name
     useEffect(() => {
         /* const Token = localStorage.getItem('token'); */
         if (Name) {

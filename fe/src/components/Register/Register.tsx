@@ -4,11 +4,13 @@ import { useHistory } from "react-router";
 import todoLogo from "../../img/Microsoft_To-Do_icon.png";
 /* import axios from "axios"; */
 import { Page, RegisterBox, Input, Logo, Title, Label } from "./Style";
+import {ErrorMsg} from '../Login/Style'
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import { getName, startFetching } from "../../actions/registerActions";
 /* import PasswordStrengthBar from 'react-password-strength-bar'; */
 import Button from "@material-ui/core/Button";
+import {regexPassword, regexEmail} from '../../helpers/regex'
 
 interface User {
   name: string;
@@ -62,7 +64,9 @@ const Register = () => {
     return userInfo.name &&
           userInfo.email &&
           userInfo.password &&
-          userInfo.password === userInfo.confirm
+          userInfo.password === userInfo.confirm &&
+          regexPassword.test(userInfo.password) &&
+          regexEmail.test(userInfo.email)
   }
 
   const GetUserName = (nameFromRedux:string) => {
@@ -128,7 +132,6 @@ const Register = () => {
           id="name"
           onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
         />
-
         <Label htmlFor="email">Email:</Label>
         <Input
           type="email"
@@ -136,7 +139,7 @@ const Register = () => {
           id="email"
           onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
         />
-
+        {!regexEmail.test(userInfo.email) && userInfo.email.length !== 0 && <ErrorMsg>Inserire un email valida</ErrorMsg>}
         <Label htmlFor="password">Password:</Label>
         <Input
           type="password"
@@ -146,6 +149,7 @@ const Register = () => {
             setUserInfo({ ...userInfo, password: e.target.value })
           }
         />
+        {!regexPassword.test(userInfo.password) && userInfo.password.length !== 0 && <ErrorMsg>la password deve conenere alemno 8 caratteri, una lettera maiuscola, una minuscola e un numero</ErrorMsg>}
 
         <Label htmlFor="controlPword">Conferm password:</Label>
         <Input
