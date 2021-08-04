@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const app = express();
@@ -9,6 +18,7 @@ const cors = require("cors");
 const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
 const client = new MongoClient(mongoUrl);
+const nodemailer = require("nodemailer");
 //token generation
 const generateToken = (date, name, seecret) => {
     return jwt.sign({
@@ -48,6 +58,33 @@ const VerifyToken = (req, res, next) => {
         next();
     });
 };
+//mail function 
+function main(mail) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'randy.bergstrom25@ethereal.email',
+                pass: 'Q6QEwkQfTAMkyMT2Cz'
+            }
+        });
+        // send mail with defined transport object
+        let info = yield transporter.sendMail({
+            from: '<noreply@todo.com>',
+            to: mail,
+            subject: "Hello ✔",
+            text: "Hello world?",
+            html: "<b>Hello world?</b>", // html body
+        });
+        console.log("Message sent: %s", info.messageId);
+        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+        // Preview only available when sending through an Ethereal account
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    });
+}
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -67,6 +104,9 @@ app.post("/login/addUser", (req, res) => {
                 .connect()
                 .then(() => {
                 client.db("todoDb").collection("users").insertOne(NewUser);
+            })
+                .then(() => {
+                main(NewUser.email);
             })
                 .then(() => {
                 const token = generateToken("h", NewUser.name, "seecret");

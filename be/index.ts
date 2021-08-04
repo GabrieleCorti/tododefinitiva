@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 import { ESRCH } from "constants";
 import { Request, Response, NextFunction } from "express";
 const client = new MongoClient(mongoUrl);
+const nodemailer = require("nodemailer");
 
 //interfacecce
 interface User {
@@ -73,7 +74,36 @@ const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   });
 }
+//mail function 
+async function main(mail:string) {
 
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
+    auth: {
+        user: 'randy.bergstrom25@ethereal.email',
+        pass: 'Q6QEwkQfTAMkyMT2Cz'
+    }
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '<noreply@todo.com>', // sender address
+    to: mail, // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>", // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+  // Preview only available when sending through an Ethereal account
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+
+}
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -95,6 +125,9 @@ app.post("/login/addUser", (req: Request, res: Response) => {
         .connect()
         .then(() => {
           client.db("todoDb").collection("users").insertOne(NewUser);
+        })
+        .then(()=>{
+          main(NewUser.email);
         })
         .then(() => {
           const token = generateToken("h", NewUser.name, "seecret");
