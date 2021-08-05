@@ -30,5 +30,10 @@ export const BtnAdd = styled.button`
     color: white;
     width: 50px;
     height: 50px;
-    background-color: f5805c;
+    background-color: #FF7F50;
+    border: 1px solid white;
+    cursor: pointer;
+`;
+
+export const Label = styled.label`
 `;

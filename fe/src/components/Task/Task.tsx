@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import {isFetching, getTodos, isDeleting, deleteCall} from '../../actions/todoActions'
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {TaskContainer, Todo, TaskTitle, TaskBody, Date, TaskMenuIcon, Menu} from './Style'
 interface Todo {
     _id:string,
     title:string,
@@ -16,7 +18,7 @@ const Task = () => {
     const isPosting = useSelector((state:RootStateOrAny) => state.todoReducer.isPosting)
     const isDeletingTask = useSelector((state:RootStateOrAny )=> state.todoReducer.isDeleting)
     const token = localStorage.getItem('token')
-    
+    const [isOpen, setIsOpen] = useState<boolean>(false)
     
     //set dispatch
     const dispatch = useDispatch();
@@ -29,23 +31,36 @@ const Task = () => {
     const deleteTask = (id:string, token:string|null) => {
         dispatch(isDeleting());
         dispatch(deleteCall(id, token));
+        OpenClose();
+    }
+
+    const OpenClose = () => {
+        setIsOpen(!isOpen)
     }
     return (
-        <div>
+        <TaskContainer onClick={()=> isOpen && OpenClose()} >
             <ul>
                 {
                     todos.map((e:any)=>{
                         return (
-                        <li key={e._id}>
-                            <h2>{e.title}</h2>
-                            <p>{e.body}</p>
-                            <span>{e.date}</span>
-                            <span onClick={() => {deleteTask(e._id, token)}}>x</span>
-                        </li>)
+                        <Todo key={e._id} onClick={()=> isOpen && OpenClose()} >
+                            <div className='menu'>
+                                <TaskMenuIcon onClick={OpenClose} />
+                                {isOpen && <Menu>
+                                    <ul>
+                                        <li onClick={() => {deleteTask(e._id, token)}}>Elimina</li>
+                                    </ul>
+                                </Menu> }
+                            </div>
+                            <TaskTitle>{e.title}</TaskTitle>
+                            <TaskBody>{e.body}</TaskBody>
+                            {e.date && <><hr />
+                            <Date>da completare entro {e.date}</Date></> }
+                        </Todo>)
                     })
                 }
             </ul>
-        </div>
+        </TaskContainer>
     )
 }
 
