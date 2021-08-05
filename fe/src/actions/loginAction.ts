@@ -1,4 +1,4 @@
-import { LOGIN, START_LOGING, NOT_FOUND_USER } from "../actionTypes";
+import { LOGIN, START_LOGING, NOT_FOUND_USER, LOGOUT } from "../actionTypes";
 import axios from "axios";
 
 interface Obj {
@@ -11,6 +11,12 @@ export const startLogin = () => {
     type: START_LOGING,
   };
 };
+
+export const LogOutApp = () => {
+  return {
+    type: LOGOUT
+  }
+}
 
 const notFound = () => {
   return {

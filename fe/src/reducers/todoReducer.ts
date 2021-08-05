@@ -1,4 +1,4 @@
-import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH} from "../actionTypes";
+import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH, LOGOUT, LOGOUT_REGISTER} from "../actionTypes";
 
 interface State {
     isPosting:boolean,
@@ -39,7 +39,11 @@ export const todoReducer = (state=InitialState, action:any) => {
         case GET_TODO:
             return {...state, todos: action.payload, isAuth:true}
         case NO_AUTH: 
-        return {...state, isAuth:false }
+            return {...state, isAuth:false }
+        case LOGOUT:
+            return {...state, isAuth:true }
+        case LOGOUT_REGISTER:
+            return {...state, isAuth:true }
         default:
             return state;
     }

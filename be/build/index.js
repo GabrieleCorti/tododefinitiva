@@ -248,7 +248,7 @@ app.post('/addTodo', VerifyToken, (req, res) => {
         }
     }
 });
-app.put('/confirm-account', VerifyToken, (req, res) => {
+app.put('/confirm-account', (req, res) => {
     const { code } = req.body;
     console.log(req.body);
     try {

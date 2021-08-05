@@ -1,4 +1,4 @@
-import { GET_NAME, START_FETCHING, HAS_ERROR} from '../actionTypes/index'
+import { GET_NAME, START_FETCHING, HAS_ERROR, LOGOUT_REGISTER} from '../actionTypes/index'
 interface State {
     user:string
     isFetching:boolean
@@ -22,6 +22,8 @@ export const registerReducer = (state = initialState, action:any) => {
             return {...state, isFetching: true}
         case HAS_ERROR:
             return {...state, error: action.payload, isFetching: false }
+        case LOGOUT_REGISTER:
+            return {...state, user: ''}
         default:
             return state
     }

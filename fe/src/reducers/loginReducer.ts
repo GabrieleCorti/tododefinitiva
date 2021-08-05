@@ -1,4 +1,4 @@
-import { LOGIN, START_LOGING, NOT_FOUND_USER } from "../actionTypes";
+import { LOGIN, START_LOGING, NOT_FOUND_USER, LOGOUT} from "../actionTypes";
 
 
 interface State {
@@ -23,6 +23,8 @@ export const loginReducer = (state:State = InitialState, action:any) => {
             return {...state, name: action.payload.name, email: action.payload.email, isLoging: false}
         case NOT_FOUND_USER:
             return {...state, isNotFound:true}
+        case LOGOUT:
+            return {...state, name: '', email: ''}
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import { GET_NAME, START_FETCHING, HAS_ERROR } from "../actionTypes";
+import { GET_NAME, START_FETCHING, HAS_ERROR, LOGOUT_REGISTER } from "../actionTypes";
 import axios from "axios";
 interface IObj {
 
@@ -73,6 +73,12 @@ interface IObj {
 
 } */
 
+export const logOutRegister = () => {
+  return {
+    type: LOGOUT_REGISTER 
+  }
+}
+
 const newUser = (obj:IObj) => {
     return {
         type: GET_NAME,
@@ -113,3 +119,4 @@ export const startFetching = () => {
     type: START_FETCHING,
   };
 };
+

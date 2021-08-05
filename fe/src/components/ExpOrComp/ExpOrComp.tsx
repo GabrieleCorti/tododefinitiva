@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Page, RegisterBox, Title } from "../Register/Style";
 import { RootStateOrAny, useSelector, useDispatch } from "react-redux";
+import { LogOutApp } from "../../actions/loginAction";
+import { logOutRegister } from "../../actions/registerActions";
 import { GoToRegister, StyledLink } from "../Login/Style";
 import { verifyToken } from "../../actions/verifyAction";
 
@@ -18,6 +20,12 @@ const ExpOrComp:React.FC = ({ children }) => {
         dispatch(verifyToken(Token))
     }, [])
 
+    const logout = () => {
+      dispatch(logOutRegister())
+      dispatch(LogOutApp())
+      localStorage.clear()
+    }
+
   return (
     <>
       {IsAutorised && hasName ? (
@@ -27,8 +35,8 @@ const ExpOrComp:React.FC = ({ children }) => {
           <RegisterBox>
             <Title>Spiacente ma non ti è permesso entrare qui</Title>
             <GoToRegister>
-              procedi con il <StyledLink to="/login">Login</StyledLink> o{" "}
-              <StyledLink to="/register">Registrati</StyledLink>
+              procedi con il <StyledLink to="/login" onClick={logout}>Login</StyledLink> o{" "}
+              <StyledLink to="/register" onClick={logout}>Registrati</StyledLink>
             </GoToRegister>
           </RegisterBox>
         </Page>

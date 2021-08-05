@@ -2,10 +2,12 @@
 export const GET_NAME:string = 'GET_NAME';
 export const START_FETCHING:string = 'IS_FETCHING';
 export const HAS_ERROR:string = 'HAS_ERROR'
+export const LOGOUT_REGISTER = 'LOGOUT_REGISTER'
 //login
 export const LOGIN:string = 'LOGIN'
 export const START_LOGING:string = 'START_LOGING'
 export const NOT_FOUND_USER:string = 'NOT_FOUND_USER'
+export const LOGOUT = 'LOGOUT'
 //varifyToken 
 export const IS_VERIFYED:string = 'IS_VERIFYED'
 export const IS_NOT_VERIFYED:string = 'IS_NOT_VERIFYED'
