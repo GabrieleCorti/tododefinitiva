@@ -6,7 +6,34 @@ import { useHistory } from 'react-router'
 import { RootStateOrAny, useSelector } from 'react-redux'
 import { LogOutApp } from "../../actions/loginAction";
 import { logOutRegister } from "../../actions/registerActions";
+import { Page, RegisterBox, Title } from "../Register/Style";
+import { AppVew, TodoSection } from './Style'
 import { Link } from 'react-router-dom'
+import TodoAside from '../TodoAside'
+
+const TodoVew = ({onClick}:any) => {
+    return (
+        <AppVew>
+                <TodoAside onClick={onClick} />
+                <TodoSection>
+                    <Task />
+                    <InputBar />
+                </TodoSection>
+        </AppVew>
+        )
+}
+
+const SessionExpiredVew = ({onClick}:any) => {
+    
+    return (
+        <Page>
+            <RegisterBox>
+                <Title>la sessione è scaduta <br /> torna a <Link to='/login' onClick={onClick}>login</Link></Title>
+            </RegisterBox>
+        </Page>
+    )
+}
+
 
 const Todo = () => {
     //const for diapatch 
@@ -21,17 +48,14 @@ const Todo = () => {
             history.push('/login')
         }
       }
+    
     const isAuth = useSelector((state:RootStateOrAny) => state.todoReducer.isAuth)
     return (
         <div>
            {
                isAuth ? 
-               <>
-                <button onClick={()=>{logout(false)}}>Logout</button>
-                <Task />
-                <InputBar />
-               </> :
-               <h1>la sessione è scaduta, torna a <Link to='/login' onClick={()=>{logout()}}>login</Link></h1>
+               <TodoVew onClick={()=>{logout(false)}} /> :
+               <SessionExpiredVew onClick={()=>{logout()}} />
            }
         </div>
     )
