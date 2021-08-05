@@ -19,6 +19,7 @@ const Task = () => {
     const isDeletingTask = useSelector((state:RootStateOrAny )=> state.todoReducer.isDeleting)
     const token = localStorage.getItem('token')
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [id, setId] = useState<string>('')
     
     //set dispatch
     const dispatch = useDispatch();
@@ -34,7 +35,8 @@ const Task = () => {
         OpenClose();
     }
 
-    const OpenClose = () => {
+    const OpenClose = (id:string = '') => {
+        setId(id)
         setIsOpen(!isOpen)
     }
     return (
@@ -45,17 +47,18 @@ const Task = () => {
                         return (
                         <Todo key={e._id} onClick={()=> isOpen && OpenClose()} >
                             <div className='menu'>
-                                <TaskMenuIcon onClick={OpenClose} />
-                                {isOpen && <Menu>
-                                    <ul>
-                                        <li onClick={() => {deleteTask(e._id, token)}}>Elimina</li>
-                                    </ul>
-                                </Menu> }
+                                <TaskMenuIcon onClick={()=>OpenClose(e._id)} />
+                                {isOpen && id === e._id && 
+                                    <Menu>
+                                        <ul>
+                                            <li onClick={() => {deleteTask(e._id, token)}}>Elimina</li>
+                                        </ul>
+                                    </Menu>}
                             </div>
                             <TaskTitle>{e.title}</TaskTitle>
                             <TaskBody>{e.body}</TaskBody>
-                            {e.date && <><hr />
-                            <Date>da completare entro {e.date}</Date></> }
+                            {e.expDate && <><hr />
+                            <Date>da completare entro {e.expDate}</Date></> }
                         </Todo>)
                     })
                 }

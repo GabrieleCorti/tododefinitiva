@@ -68,9 +68,21 @@ export const TaskMenuIcon = styled(MoreVertIcon)`
     }
 `;
 export const Menu = styled.div`
+    position: absolute;
+    top: 0;
     ul {
         list-style: none;
     }
-    width: 112%;
+    li {
+        color: #3495EA;
+        cursor: pointer;
+        padding: 12px;
+        -webkit-box-shadow: 5px 7px 5px -2px rgba(0,0,0,0.11); 
+        box-shadow: 5px 7px 5px -2px rgba(0,0,0,0.11);
+    }
+    li:hover {
+        color: #FF7F50;
+        transition: color 0.2 ease;
+    }
     background-color: white;
 `;
