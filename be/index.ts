@@ -7,6 +7,7 @@ const cors = require("cors");
 const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
 import { Request, Response, NextFunction } from "express";
+import { ObjectId } from "mongodb";
 const client = new MongoClient(mongoUrl);
 const nodemailer = require("nodemailer");
 const cripto = require('crypto');
@@ -286,6 +287,31 @@ app.put('/confirm-account', (req:Request, res:Response) => {
       return;
   } catch (error) {
     console.log(error);
+    return;
+  }
+});
+
+app.delete('/deleteTodo/:id', VerifyToken,(req:Request, res:Response) => {
+  const { id } = req.params;
+  const o_id = new ObjectId(id)
+  try {
+    client.connect()
+      .then(()=>{
+          return client.db('todoDb').collection('todos').deleteOne({_id: o_id })
+      })
+      .then((response:any) =>{
+        console.log(response);
+        res.json({
+          siDeleted: true
+        })
+        return;
+      })
+  } catch (error) {
+    console.log(error);
+    res.json({
+      isDeleted: false,
+      err: error 
+    })
     return;
   }
 });

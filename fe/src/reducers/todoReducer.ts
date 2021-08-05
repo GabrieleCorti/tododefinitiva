@@ -1,10 +1,11 @@
-import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH, LOGOUT, LOGOUT_REGISTER} from "../actionTypes";
+import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH, LOGOUT, LOGOUT_REGISTER, IS_DELETING, DELETE, FAIL_DELETE} from "../actionTypes";
 
 interface State {
     isPosting:boolean,
     isFetching:boolean,
-    todos: Todo[] | []
-    isAuth: boolean
+    todos:Todo[] | []
+    isAuth: boolean,
+    isDeleting:boolean
 }
 
 interface Todo {
@@ -21,7 +22,8 @@ const InitialState:State = {
     isFetching: false,
     isPosting: false,
     todos: [],
-    isAuth:true
+    isAuth:true,
+    isDeleting:false
 }
 
 export const todoReducer = (state=InitialState, action:any) => {
@@ -44,6 +46,12 @@ export const todoReducer = (state=InitialState, action:any) => {
             return {...state, isAuth:true }
         case LOGOUT_REGISTER:
             return {...state, isAuth:true }
+        case IS_DELETING:
+            return {...state, isDeleting: true};
+        case DELETE:
+            return {...state, isDeleting: false};
+        case FAIL_DELETE:
+            return {...state, isDeleting: false};
         default:
             return state;
     }

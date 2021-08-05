@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
-import {isFetching, getTodos} from '../../actions/todoActions'
-
+import {isFetching, getTodos, isDeleting, deleteCall} from '../../actions/todoActions'
 interface Todo {
     _id:string,
     title:string,
@@ -15,6 +14,7 @@ interface Todo {
 const Task = () => {
     const todos:Todo[] = useSelector((state:RootStateOrAny) => state.todoReducer.todos)
     const isPosting = useSelector((state:RootStateOrAny) => state.todoReducer.isPosting)
+    const isDeletingTask = useSelector((state:RootStateOrAny )=> state.todoReducer.isDeleting)
     const token = localStorage.getItem('token')
     
     
@@ -24,10 +24,11 @@ const Task = () => {
     useEffect(()=>{
         dispatch(isFetching())
         dispatch(getTodos(token))
-    }, [isPosting])
+    }, [isPosting, isDeletingTask])
 
-    const deleteTask = (id:string) => {
-        console.log(id);
+    const deleteTask = (id:string, token:string|null) => {
+        dispatch(isDeleting());
+        dispatch(deleteCall(id, token));
     }
     return (
         <div>
@@ -39,7 +40,7 @@ const Task = () => {
                             <h2>{e.title}</h2>
                             <p>{e.body}</p>
                             <span>{e.date}</span>
-                            <span onClick={() => {deleteTask(e._id)}}>x</span>
+                            <span onClick={() => {deleteTask(e._id, token)}}>x</span>
                         </li>)
                     })
                 }

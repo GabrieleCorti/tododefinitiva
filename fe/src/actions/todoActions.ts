@@ -1,4 +1,4 @@
-import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH } from "../actionTypes";
+import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH, IS_DELETING, DELETE, FAIL_DELETE } from "../actionTypes";
 import axios from "axios";
 
 interface Todo {
@@ -109,6 +109,45 @@ export const getTodos = (token:string | null) => {
             .catch(err=>{
                 console.log(err);
                 dispatch(failedGet())
+            })
+    }
+}
+
+export const isDeleting = () => {
+    return {
+        type: IS_DELETING
+    }
+}
+
+const deleteTodo = () => {
+    return {
+        type: DELETE
+    }
+}
+
+const deleteFail = () => {
+    return {
+        type: FAIL_DELETE
+    }
+}
+
+export const deleteCall = (id:string, token:string|null) => {
+    return (dispatch:any) => {
+        return axios.delete(`http://localhost:5000/deleteTodo/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res=>{
+                if (res.data.isAuthorised === false){
+                    dispatch(noPermission());
+                } else if (res.data.siDeleted) {
+                    dispatch(deleteTodo())
+                } else {
+                    dispatch(deleteFail())
+                }
+            }).catch(err=>{
+                dispatch(deleteFail())
             })
     }
 }

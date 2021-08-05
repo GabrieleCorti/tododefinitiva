@@ -17,6 +17,7 @@ const { MongoClient } = require("mongodb");
 const cors = require("cors");
 const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
+const mongodb_1 = require("mongodb");
 const client = new MongoClient(mongoUrl);
 const nodemailer = require("nodemailer");
 const cripto = require('crypto');
@@ -260,6 +261,31 @@ app.put('/confirm-account', (req, res) => {
     }
     catch (error) {
         console.log(error);
+        return;
+    }
+});
+app.delete('/deleteTodo/:id', VerifyToken, (req, res) => {
+    const { id } = req.params;
+    const o_id = new mongodb_1.ObjectId(id);
+    try {
+        client.connect()
+            .then(() => {
+            return client.db('todoDb').collection('todos').deleteOne({ _id: o_id });
+        })
+            .then((response) => {
+            console.log(response);
+            res.json({
+                siDeleted: true
+            });
+            return;
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.json({
+            isDeleted: false,
+            err: error
+        });
         return;
     }
 });
