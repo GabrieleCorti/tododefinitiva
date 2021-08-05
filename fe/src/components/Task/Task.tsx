@@ -26,7 +26,9 @@ const Task = () => {
         dispatch(getTodos(token))
     }, [isPosting])
 
-    
+    const deleteTask = (id:string) => {
+        console.log(id);
+    }
     return (
         <div>
             <ul>
@@ -37,6 +39,7 @@ const Task = () => {
                             <h2>{e.title}</h2>
                             <p>{e.body}</p>
                             <span>{e.date}</span>
+                            <span onClick={() => {deleteTask(e._id)}}>x</span>
                         </li>)
                     })
                 }
