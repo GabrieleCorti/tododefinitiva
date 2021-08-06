@@ -2,8 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import {isFetching, getTodos, isDeleting, deleteCall} from '../../actions/todoActions'
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {TaskContainer, Todo, TaskTitle, TaskBody, Date, TaskMenuIcon, Menu} from './Style'
+import {TaskContainer, Todo, TaskTitle, TaskBody, Date, TaskMenuIcon, Menu, MenuVoice} from './Style'
 interface Todo {
     _id:string,
     title:string,
@@ -51,7 +50,7 @@ const Task = () => {
                                 {isOpen && id === e._id && 
                                     <Menu>
                                         <ul>
-                                            <li onClick={() => {deleteTask(e._id, token)}}>Elimina</li>
+                                            <MenuVoice onClick={() => {deleteTask(e._id, token)}}>Elimina</MenuVoice>
                                         </ul>
                                     </Menu>}
                             </div>

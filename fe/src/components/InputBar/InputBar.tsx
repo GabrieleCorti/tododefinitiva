@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { RootStateOrAny, useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {isPosting, postTodo} from '../../actions/todoActions'
 import {InputSection, TitleInput, TextInput, BtnAdd} from './Style'
 

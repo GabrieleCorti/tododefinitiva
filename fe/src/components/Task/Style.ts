@@ -5,6 +5,7 @@ export const TaskContainer = styled.div`
     height: calc(100vh - 150px);
     padding: 3% 10% 0;
     overflow-y: auto;
+    background-size: cover;
     ul {
         list-style: none;
     }
@@ -21,6 +22,7 @@ export const Todo = styled.li`
     position: relative;
     width: 100%;
     margin-bottom: 4%;
+    background-color: white;
     -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.21); 
     box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.21);
     padding: 20px 15px;
@@ -73,7 +75,7 @@ export const Menu = styled.div`
     ul {
         list-style: none;
     }
-    li {
+    /* li {
         color: #3495EA;
         cursor: pointer;
         padding: 12px;
@@ -83,6 +85,18 @@ export const Menu = styled.div`
     li:hover {
         color: #FF7F50;
         transition: color 0.2 ease;
-    }
+    } */
     background-color: white;
+`;
+
+export const MenuVoice = styled.li`
+    color: #3495EA;
+    cursor: pointer;
+    padding: 12px;
+    -webkit-box-shadow: 5px 7px 5px -2px rgba(0,0,0,0.11); 
+    box-shadow: 5px 7px 5px -2px rgba(0,0,0,0.11);
+    &:hover {
+        color: #FF7F50;
+        transition: color 0.2 ease;
+    }
 `;

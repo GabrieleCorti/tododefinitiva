@@ -45,7 +45,7 @@ const Login = () => {
         if (Name) {
             history.push('/todo')
         }
-    }, [Name])
+    }, [Name, history])
 
     const Log = () => {
         if (logInfo.email && logInfo.password) {

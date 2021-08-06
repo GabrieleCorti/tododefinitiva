@@ -34,7 +34,7 @@ const ConfirmAccount = () => {
             } catch (error) {
                 console.log(error);   
             }
-    }, [])
+    })
 
     return (
         <Page>

@@ -83,7 +83,7 @@ const Register = () => {
       setError({isActive: true, error: apiError})
     }
     GetUserName(UserName)
-  })
+  },[apiError, GetUserName, UserName])
 
   const Submit = () => {
     if (

@@ -18,7 +18,7 @@ const ExpOrComp:React.FC = ({ children }) => {
 
     useEffect(() => {
         dispatch(verifyToken(Token))
-    }, [])
+    })
 
     const logout = () => {
       dispatch(logOutRegister())
