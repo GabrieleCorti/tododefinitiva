@@ -5,6 +5,7 @@ import { RootStateOrAny, useSelector } from 'react-redux'
 import { Menu, MenuVoice } from '../Task/Style';
 import CheckCircleOutlineRoundedIcon from '@material-ui/icons/CheckCircleOutlineRounded';
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
+import TimerOutlinedIcon from '@material-ui/icons/TimerOutlined';
 import FilterVoice from '../FilterVoice/FilterVoice';
 
 const TodoAside = ({onClick}:any) => {
@@ -35,6 +36,9 @@ const TodoAside = ({onClick}:any) => {
             </FilterVoice>
             <FilterVoice voice='Preferiti'>
                 <StarBorderOutlinedIcon />
+            </FilterVoice>
+            <FilterVoice voice='In scadenza'>
+                <TimerOutlinedIcon />
             </FilterVoice>
              
         </Aside>
