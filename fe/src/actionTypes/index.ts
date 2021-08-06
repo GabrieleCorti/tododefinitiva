@@ -22,3 +22,6 @@ export const NO_AUTH:string = 'NO_AUTH'
 export const IS_DELETING:string = 'IS_DELETING'
 export const DELETE:string = 'DELETE'
 export const FAIL_DELETE:string = 'FAIL_DELETE'
+//Ui todo 
+export const OPEN_FORM:string = 'OPEN_FORM'
+export const CLOSE_FORM:string = 'FAIL_DELETE'

@@ -1,4 +1,4 @@
-import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH, IS_DELETING, DELETE, FAIL_DELETE } from "../actionTypes";
+import { START_POSTING, POST_TODO, FAILED_POST, START_FETCHING_TODOS, GET_TODO, FAILED_GET, NO_AUTH, IS_DELETING, DELETE, FAIL_DELETE, OPEN_FORM, CLOSE_FORM} from "../actionTypes";
 import axios from "axios";
 
 interface Todo {
@@ -149,5 +149,17 @@ export const deleteCall = (id:string, token:string|null) => {
             }).catch(err=>{
                 dispatch(deleteFail())
             })
+    }
+}
+
+export const OpenForm = () => {
+    return {
+        type: OPEN_FORM
+    }
+}
+
+export const CloseForm = () => {
+    return {
+        type: CLOSE_FORM
     }
 }

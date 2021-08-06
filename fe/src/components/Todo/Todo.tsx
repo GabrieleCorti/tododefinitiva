@@ -1,23 +1,30 @@
 import React from 'react'
 import InputBar from '../InputBar'
 import Task from '../Task'
-import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { RootStateOrAny, useSelector } from 'react-redux'
+import { RootStateOrAny, useSelector, useDispatch } from 'react-redux'
 import { LogOutApp } from "../../actions/loginAction";
 import { logOutRegister } from "../../actions/registerActions";
 import { Page, RegisterBox, Title } from "../Register/Style";
-import { AppVew, TodoSection } from './Style'
+import { AppVew, TodoSection, AddTodo } from './Style'
 import { Link } from 'react-router-dom'
 import TodoAside from '../TodoAside'
+import { OpenForm, CloseForm } from '../../actions/todoActions'
 
 const TodoVew = ({onClick}:any) => {
+    const isOpen = useSelector((state:RootStateOrAny) => state.todoReducer.isOpen)
+    const dispatch = useDispatch();
+    
+    const OpenClose = () => {
+        (isOpen && dispatch(CloseForm())) || dispatch(OpenForm())
+    }
     return (
         <AppVew>
                 <TodoAside onClick={onClick} />
                 <TodoSection>
                     <Task />
-                    <InputBar />
+                    {isOpen && <InputBar />}
+                    <AddTodo className='large' onClick={OpenClose}/>
                 </TodoSection>
         </AppVew>
         )
