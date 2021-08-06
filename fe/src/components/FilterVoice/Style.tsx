@@ -11,10 +11,10 @@ export const FilterText = styled.span`
 `;
 
 export const Filter = styled.div<TitleProps>`
-    padding: 4% 2%;
+    padding: 6% 4%;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #3495EA;
+    border-bottom: 1px solid rgba(0,0,0, 0.05);
     transition: all 0.2 ease;
     cursor: pointer;
     background-color: ${props => props.isActive ? '#3495EA' : "transparent"};

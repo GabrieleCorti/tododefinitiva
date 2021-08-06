@@ -20,10 +20,10 @@ export const AddTodo = styled(AddCircleIcon)`
         transition: all 0.2s ease;
     }
     &.large {
-        height: 60px;
-        width: 60px;
+        height: 120px;
+        width: 120px;
     }
     position: fixed;
-    right: 20px;
+    right: 2%;
     bottom: 40px;
 `;

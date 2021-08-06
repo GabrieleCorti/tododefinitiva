@@ -21,10 +21,11 @@ export const Date = styled.span`
 export const Todo = styled.li`
     position: relative;
     width: 100%;
-    margin-bottom: 4%;
+    margin-bottom: 2%;
     background-color: white;
-    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.21); 
-    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.21);
+    /* -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.21); 
+    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.21); */
+    box-shadow: 0px 3px 4px #dcdcdc;
     padding: 20px 15px;
     border: 2px solid transparent;
     transition: all 0.2s ease;

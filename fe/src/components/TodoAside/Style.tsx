@@ -11,7 +11,7 @@ export const Aside = styled.aside`
 
 export const MenuHeader = styled.div`
     background-color: #3495EA;
-    height: 100px;
+    height: 175px;
     padding: 10px 5px;
     width: 100%;
     display: flex;
